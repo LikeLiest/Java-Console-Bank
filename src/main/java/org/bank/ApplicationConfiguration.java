@@ -8,8 +8,10 @@ import org.bank.operations.processors.CreateAccountProcessor;
 import org.bank.operations.processors.CreateUserProcessor;
 import org.bank.operations.processors.ShowAllUsersProcessor;
 import org.bank.user.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class ApplicationConfiguration {
   
   @Bean
@@ -43,8 +46,11 @@ public class ApplicationConfiguration {
   }
   
   @Bean
-  public AccountService accountService() {
-    return new AccountService();
+  public AccountService accountService(
+    @Value("${account.default-amount}") int defaultAmount,
+    @Value("${account.transfer-commission}") double transferCommission
+  ) {
+    return new AccountService(defaultAmount, transferCommission);
   }
   
   @Bean
