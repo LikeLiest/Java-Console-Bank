@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bank.account.Account;
 import org.bank.account.AccountService;
 import org.bank.exception.UserNotFoundException;
+import org.bank.operations.ConsoleOperationType;
 import org.bank.operations.OperationCommandProcessor;
 import org.bank.user.User;
 import org.bank.user.UserService;
@@ -27,5 +28,10 @@ public class CreateAccountProcessor implements OperationCommandProcessor {
     user.getAccountList().add(account);
     
     System.out.printf("Новый аккаунт создан с ID: %d для пользователья %s%n", userId, account.toString());
+  }
+  
+  @Override
+  public ConsoleOperationType getOperationType() {
+    return ConsoleOperationType.ACCOUNT_CREATE;
   }
 }

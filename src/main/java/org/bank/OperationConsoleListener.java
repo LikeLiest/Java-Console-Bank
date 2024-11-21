@@ -9,12 +9,11 @@ import java.util.Scanner;
 
 @RequiredArgsConstructor
 public class OperationConsoleListener {
-  
   private final Scanner scanner;
-  private final Map<ConsoleOperationType, OperationCommandProcessor> processors;
+  private final Map<ConsoleOperationType, OperationCommandProcessor> processorMap;
   
   public void listenUpdates() {
-    System.out.println("Please type operation: \n");
+    System.out.println("Введите команду: \n");
     
     while (true) {
       ConsoleOperationType operationType = listenNextOperation();
@@ -23,9 +22,12 @@ public class OperationConsoleListener {
   }
   
   private ConsoleOperationType listenNextOperation() {
-    System.out.println("Введите команду: ");
+    System.out.println("\nВведите команду: ");
+    printAllAvailableOperation();
+    System.out.println();
+    
     while (true) {
-      var nextOperation = scanner.nextLine();
+      String nextOperation = scanner.nextLine();
       try {
         return ConsoleOperationType.valueOf(nextOperation);
       } catch (IllegalArgumentException e) {
@@ -34,9 +36,14 @@ public class OperationConsoleListener {
     }
   }
   
+  private void printAllAvailableOperation() {
+    processorMap.keySet()
+      .forEach(System.out::println);
+  }
+  
   private void processNextOperation(ConsoleOperationType operation) {
     try {
-      var processor = processors.get(operation);
+      OperationCommandProcessor processor = processorMap.get(operation);
       processor.processOperation();
     } catch (Exception e) {
       System.err.printf("Ошибка. %s\n", e.getMessage());

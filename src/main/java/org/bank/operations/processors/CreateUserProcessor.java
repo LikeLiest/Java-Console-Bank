@@ -1,6 +1,7 @@
 package org.bank.operations.processors;
 
 import lombok.RequiredArgsConstructor;
+import org.bank.operations.ConsoleOperationType;
 import org.bank.operations.OperationCommandProcessor;
 import org.bank.user.User;
 import org.bank.user.UserService;
@@ -19,5 +20,10 @@ public class CreateUserProcessor implements OperationCommandProcessor {
     
     User user = this.userService.createUser(login);
     System.out.printf("Пользователь успешно создан: %s\n", user.toString());
+  }
+  
+  @Override
+  public ConsoleOperationType getOperationType() {
+    return ConsoleOperationType.USER_CREATE;
   }
 }
